@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Object Detection{% endblock %}
+
+{% block subject %}
+<h1>Object Detection</h1> 
+{% endblock %}
+
+{% block content %}
+<h2>Upload a video or an image file for object detection</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile" accept="video/*,image/*">
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+
+
+{% if original_img %}
+<img src="{{ original_img }}" alt="Original" width="500" height="333">
+
+{% endif %}
+
+{% if obb_img %}
+<img src="{{ obb_img }}" alt="OBB" width="500" height="333">
+
+{% endif %}
+
+
+{% if original_video or original_image %}
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-5">
+            <h2>Original Media:</h2>
+            {% if original_video %}
+            <video width="450" height="283" controls src="{{ original_video }}">
+            </video> 
+            {% elif original_image %}
+                <img src="{{ original_image }}" alt="Original" width="450" height="283">
+            {% endif %}
+        </div>
+        <div class="col-md-5">
+            <h2>Result Media:</h2>
+            {% if original_video %}
+                <video width="450" height="283" controls src="{{ result_media }}">
+                </video> 
+            {% else %}
+                <img src="{{ result_media }}" alt="result media" width="450" height="283">
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
